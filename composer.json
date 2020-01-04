@@ -1,0 +1,30 @@
+{
+    "name": "sorin/awesome-system",
+    "description": "Ex-Awesome System Integration, now rofi launcher for various development tools",
+    "type": "project",
+    "license": "Open Source",
+    "authors": [
+        {
+            "name": "Sorin Badea",
+            "email": "sorin.badea91@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-json": "*",
+        "symfony/console": "^4.0",
+        "symfony/finder": "^4.0",
+        "humbug/box": "^3.8",
+        "symfony/process": "^4.0",
+        "symfony/filesystem": "^4.0",
+        "ext-pcntl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AwesomeSystem\\": "src/"
+        }
+    },
+    "scripts": {
+        "build": "box build; sudo ln -sf ${PWD}/build/awesome-system.phar /usr/local/bin/awesome-system"
+    }
+}

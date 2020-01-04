@@ -1,0 +1,13 @@
+{
+    "directories": [
+        "src",
+        "vendor"
+    ],
+    "files": [
+        "awesome-system.php",
+        "quicklinks.json"
+    ],
+    "main": "awesome-system.php",
+    "output": "build/awesome-system.phar",
+    "stub": true
+}
