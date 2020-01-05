@@ -47,6 +47,7 @@ Clone this repo and execute the following commands in that directory:
 ```bash
 composer install
 composer build #will require sudo password for setting up this tool system wide
+cp Resources/config.rasi ~/.config/rofi/config.rasi #optional some theming
 ```
 
 
