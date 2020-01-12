@@ -8,18 +8,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class ExecCommand extends Command
+class LogsCommand extends Command
 {
-    protected static $defaultName = 'docker:exec';
+    protected static $defaultName = 'docker:logs';
 
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $containers = DockerUtil::getRunningContainers();
 
-        $process = new Process('rofi -dmenu -msg "Exec into a docker container"');
+        $containers = DockerUtil::getStoppedContainers();
+
+        $process = new Process('rofi -dmenu -msg "Tail logs for docker container"');
 
         $process->setInput(implode("\n", $containers));
 
@@ -27,7 +28,7 @@ class ExecCommand extends Command
 
         if ($process->isSuccessful()) {
             $container = substr(trim($process->getOutput()), 0, 12);
-            exec("terminator -e \"docker exec -it $container bash\"");
+            exec("terminator -e \"docker logs $container --follow\"");
         }
     }
 }
