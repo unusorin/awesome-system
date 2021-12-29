@@ -53,7 +53,7 @@ class OpenCommand extends Command
         $projectsRaw = '';
 
         foreach ($this->projects as $project) {
-            $projectsRaw .= str_replace(getenv("HOME"), '~', $project) . PHP_EOL;
+            $projectsRaw .= str_replace(getenv("HOME"), '~', $project).PHP_EOL;
         }
 
 
@@ -68,7 +68,7 @@ class OpenCommand extends Command
         }
 
         if ($dmenuProcess->isSuccessful()) {
-            $pstormCommand = 'pstorm ' . trim($dmenuProcess->getOutput());
+            $pstormCommand = 'pstorm '.trim($dmenuProcess->getOutput());
             exec($pstormCommand);
         }
     }
@@ -82,12 +82,18 @@ class OpenCommand extends Command
             if ($file == '.' || $file == '..') {
                 continue;
             }
-            if (is_dir("$basePath/$file/.git")) {
+            //own ecosystem
+            if (is_file("{$basePath}/{$file}/awesome-project.yaml")) {
+                $this->projects[] = "$basePath/$file";
+                $this->getProjects("{$basePath}/{$file}");
+                continue;
+            }
+            if (is_dir("{$basePath}/{$file}/.git")) {
                 $this->projects[] = "$basePath/$file";
                 continue;
             }
-            if (is_dir($basePath . DIRECTORY_SEPARATOR . $file)) {
-                $this->getProjects("$basePath/$file");
+            if (is_dir("{$basePath}/{$file}")) {
+                $this->getProjects("{$basePath}/{$file}");
             }
         }
     }
