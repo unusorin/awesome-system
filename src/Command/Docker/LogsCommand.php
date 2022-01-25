@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\Docker;
 
+use AwesomeSystem\CliUtil;
 use AwesomeSystem\DockerUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +21,7 @@ class LogsCommand extends Command
 
         $containers = DockerUtil::getStoppedContainers();
 
-        $process = new Process('rofi -dmenu -msg "Tail logs for docker container"');
+        $process = new Process(CliUtil::getChooserCommand('Tail logs for docker container'));
 
         $process->setInput(implode("\n", $containers));
 
@@ -28,7 +29,7 @@ class LogsCommand extends Command
 
         if ($process->isSuccessful()) {
             $container = substr(trim($process->getOutput()), 0, 12);
-            exec("terminator -e \"docker logs $container --follow\"");
+            exec(CliUtil::getTerminalForCommand("docker logs $container --follow"));
         }
     }
 }

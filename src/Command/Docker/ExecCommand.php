@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\Docker;
 
+use AwesomeSystem\CliUtil;
 use AwesomeSystem\DockerUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +20,7 @@ class ExecCommand extends Command
     {
         $containers = DockerUtil::getRunningContainers();
 
-        $process = new Process('rofi -dmenu -msg "Exec into a docker container"');
+        $process = new Process(CliUtil::getChooserCommand("Exec into a docker container"));
 
         $process->setInput(implode("\n", $containers));
 
@@ -27,7 +28,7 @@ class ExecCommand extends Command
 
         if ($process->isSuccessful()) {
             $container = substr(trim($process->getOutput()), 0, 12);
-            exec("terminator -e \"docker exec -it $container bash\"");
+            exec(CliUtil::getTerminalForCommand("docker exec -it $container bash"));
         }
     }
 }

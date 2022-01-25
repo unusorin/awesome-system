@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\PStorm;
 
+use AwesomeSystem\CliUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,26 +39,24 @@ class OpenCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->hasOption('baseDir')) {
-            $baseDir = $input->getOption('baseDir');
-        } else {
-            $baseDir = '/workspace';
-        }
-
+//        $baseDir = $input->getOption('baseDir');
+//        if (is_null($baseDir)) {
+            $baseDir = '/Users/sorinbadea/Workspace/';
+//        }
         if (!is_dir($baseDir)) {
-            throw new \RuntimeException('Base directory does not exists');
+            throw new \RuntimeException("Base directory does not exists {$baseDir}");
         }
 
-        $this->getProjects($baseDir);
+        $this->getProjects(realpath($baseDir));
 
         $projectsRaw = '';
 
         foreach ($this->projects as $project) {
-            $projectsRaw .= str_replace(getenv("HOME"), '~', $project).PHP_EOL;
+            $projectsRaw .= str_replace(getenv("HOME"), '~', $project) . PHP_EOL;
         }
 
 
-        $dmenuProcess = new Process('rofi -dmenu -mesg "Open project with PhpStorm"');
+        $dmenuProcess = new Process(CliUtil::getChooserCommand('Open project with PhpStorm'));
 
         $dmenuProcess->setInput($projectsRaw);
 
@@ -68,7 +67,7 @@ class OpenCommand extends Command
         }
 
         if ($dmenuProcess->isSuccessful()) {
-            $pstormCommand = 'pstorm '.trim($dmenuProcess->getOutput());
+            $pstormCommand = 'pstorm ' . trim($dmenuProcess->getOutput());
             exec($pstormCommand);
         }
     }

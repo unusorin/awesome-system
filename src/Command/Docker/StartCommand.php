@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\Docker;
 
+use AwesomeSystem\CliUtil;
 use AwesomeSystem\DockerUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +21,7 @@ class StartCommand extends Command
 
         $containers = DockerUtil::getStoppedContainers();
 
-        $process = new Process('rofi -dmenu -msg "Start docker container"');
+        $process = new Process(CliUtil::getChooserCommand('Start docker container'));
 
         $process->setInput(implode("\n", $containers));
 

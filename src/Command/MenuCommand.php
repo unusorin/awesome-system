@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command;
 
+use AwesomeSystem\CliUtil;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +49,7 @@ class MenuCommand extends Command
             return strpos($command, ':') !== false;
         });
         sort($commands);
-        $process = new Process('rofi -dmenu');
+        $process = new Process(CliUtil::getChooserCommand());
 
         $process->setInput(implode("\n", $commands));
 

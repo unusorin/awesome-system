@@ -25,6 +25,6 @@
         }
     },
     "scripts": {
-        "build": "php8.0 vendor/bin/box build; sudo ln -sf ${PWD}/build/awesome-system.phar /usr/local/bin/awesome-system"
+        "build": "php vendor/bin/box build; sudo ln -sf ${PWD}/build/awesome-system.phar /usr/local/bin/awesome-system"
     }
 }

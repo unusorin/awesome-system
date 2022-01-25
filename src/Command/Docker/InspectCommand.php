@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\Docker;
 
+use AwesomeSystem\CliUtil;
 use AwesomeSystem\DockerUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +21,7 @@ class InspectCommand extends Command
 
         $containers = DockerUtil::getStoppedContainers();
 
-        $process = new Process('rofi -dmenu -msg "Inspect docker container"');
+        $process = new Process(CliUtil::getChooserCommand('Inspect docker container'));
 
         $process->setInput(implode("\n", $containers));
 
@@ -28,7 +29,7 @@ class InspectCommand extends Command
 
         if ($process->isSuccessful()) {
             $container = substr(trim($process->getOutput()), 0, 12);
-            exec("terminator -e \"docker inspect $container | less\"");
+            exec(CliUtil::getTerminalForCommand("docker inspect $container | less"));
         }
     }
 }

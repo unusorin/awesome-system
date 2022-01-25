@@ -2,6 +2,7 @@
 
 namespace AwesomeSystem\Command\Docker;
 
+use AwesomeSystem\CliUtil;
 use AwesomeSystem\DockerUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +20,7 @@ class StopCommand extends Command
     {
         $containers = DockerUtil::getRunningContainers();
 
-        $process = new Process('rofi -dmenu -msg "Stop a docker container"');
+        $process = new Process(CliUtil::getChooserCommand('Stop a docker container'));
 
         $process->setInput(implode("\n", $containers));
 
